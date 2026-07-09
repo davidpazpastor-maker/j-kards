@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cuenta - JKards</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0e1a' width='100' height='100' rx='20'/><path d='M30 25 L30 75 M30 50 L55 25 M30 50 L55 75' stroke='%233b82f6' stroke-width='8' stroke-linecap='round'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="particles"></div>
+    <div class="glow" style="top: 20%; left: 15%;"></div>
+    <div class="glow" style="bottom: 15%; right: 20%; animation-delay: 3s;"></div>
+
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="logo-container" style="justify-content: center; margin-bottom: 1rem;">
+                <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect fill="#0a0e1a" width="100" height="100" rx="20"/>
+                    <path d="M30 25 L30 75 M30 50 L55 25 M30 50 L55 75"
+                          stroke="#3b82f6" stroke-width="8" stroke-linecap="round" fill="none"/>
+                    <rect x="65" y="30" width="15" height="40" rx="3" fill="#60a5fa" opacity="0.8"/>
+                </svg>
+            </div>
+            <h1>JKards</h1>
+            <p>Comienza tu viaje productivo</p>
+        </div>
+
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+        <form th:action="@{/auth/register}" th:object="${registerRequest}" method="post" class="auth-form">
+            <div class="form-group">
+                <label for="nombre">Nombre completo</label>
+                <input type="text" id="nombre" th:field="*{nombre}" required minlength="3" maxlength="100"
+                       placeholder="Juan Pérez" autocomplete="name">
+                <p th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="form-error"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" th:field="*{email}" required
+                       placeholder="tu@email.com" autocomplete="email">
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="form-error"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" th:field="*{password}" required minlength="6"
+                       placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="form-error"></p>
+            </div>
+
+            <button type="submit" class="btn-auth">Crear cuenta</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>¿Ya tienes cuenta? <a th:href="@{/auth/login}">Inicia sesión</a></p>
+            <p style="margin-top: 0.75rem;">
+                <a th:href="@{/}" style="color: var(--carbon-500); font-size: 0.8rem;">← Volver al inicio</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

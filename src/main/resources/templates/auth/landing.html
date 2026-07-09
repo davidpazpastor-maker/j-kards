@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JKards - Gestión de Tareas</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0e1a' width='100' height='100' rx='20'/><path d='M30 25 L30 75 M30 50 L55 25 M30 50 L55 75' stroke='%233b82f6' stroke-width='8' stroke-linecap='round'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="landing-container">
+    <div class="particles"></div>
+    <div class="glow" style="top: 15%; left: 10%;"></div>
+    <div class="glow" style="bottom: 20%; right: 15%; animation-delay: 3s;"></div>
+
+    <!-- Navbar -->
+    <nav class="landing-navbar">
+        <div class="logo-container">
+            <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect fill="#0a0e1a" width="100" height="100" rx="20"/>
+                <path d="M30 25 L30 75 M30 50 L55 25 M30 50 L55 75"
+                      stroke="#3b82f6" stroke-width="8" stroke-linecap="round" fill="none"/>
+                <rect x="65" y="30" width="15" height="40" rx="3" fill="#60a5fa" opacity="0.8"/>
+            </svg>
+            <span class="logo-text">JKards</span>
+        </div>
+        <div class="nav-links">
+            <a href="#features" class="nav-link">Características</a>
+            <a th:href="@{/auth/login}" class="btn-nav btn-nav-outline">Iniciar Sesión</a>
+            <a th:href="@{/auth/register}" class="btn-nav btn-nav-primary">Registrarse</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Organiza tus proyectos de forma visual</h1>
+            <p>JKards es la herramienta perfecta para gestionar tareas y equipos con tableros Kanban intuitivos.</p>
+            <div class="hero-buttons">
+                <a th:href="@{/auth/register}" class="btn-hero btn-hero-primary">
+                    Comenzar Gratis
+                </a>
+                <a href="#features" class="btn-hero btn-hero-secondary">
+                    Saber Más
+                </a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-card">
+                <div style="display: flex; gap: 0.75rem; margin-bottom: 0.75rem;">
+                    <div style="flex: 1; background: rgba(59, 130, 246, 0.1); padding: 0.75rem; border-radius: 6px; border: 1px solid rgba(59, 130, 246, 0.2);">
+                        <div style="height: 6px; background: rgba(59, 130, 246, 0.4); border-radius: 3px; margin-bottom: 0.4rem;"></div>
+                        <div style="height: 6px; background: rgba(59, 130, 246, 0.2); border-radius: 3px; width: 70%;"></div>
+                    </div>
+                    <div style="flex: 1; background: rgba(59, 130, 246, 0.1); padding: 0.75rem; border-radius: 6px; border: 1px solid rgba(59, 130, 246, 0.2);">
+                        <div style="height: 6px; background: rgba(59, 130, 246, 0.4); border-radius: 3px; margin-bottom: 0.4rem;"></div>
+                        <div style="height: 6px; background: rgba(59, 130, 246, 0.2); border-radius: 3px; width: 60%;"></div>
+                    </div>
+                </div>
+                <div style="background: rgba(59, 130, 246, 0.1); padding: 0.75rem; border-radius: 6px; border: 1px solid rgba(59, 130, 246, 0.2);">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem;">
+                        <div style="width: 10px; height: 10px; background: #3b82f6; border-radius: 50%;"></div>
+                        <div style="height: 6px; background: rgba(255, 255, 255, 0.6); border-radius: 3px; flex: 1;"></div>
+                    </div>
+                    <div style="height: 6px; background: rgba(255, 255, 255, 0.3); border-radius: 3px; margin-bottom: 0.2rem;"></div>
+                    <div style="height: 6px; background: rgba(255, 255, 255, 0.2); border-radius: 3px; width: 80%;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="section-title">
+            <h2>Todo lo que necesitas</h2>
+            <p>Herramientas poderosas para mantener a tu equipo sincronizado</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                </div>
+                <h3>Tableros Kanban</h3>
+                <p>Organiza tareas en columnas personalizables y visualiza el progreso claramente.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <h3>Trabajo en Equipo</h3>
+                <p>Colabora en tiempo real, asigna tareas y sigue el progreso de cada miembro.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <h3>Seguimiento Avanzado</h3>
+                <p>Establece prioridades, fechas límite y responsable. Nunca pierdas el control.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <h3>Gestión de Proyectos</h3>
+                <p>Crea múltiples proyectos y mantén todo tu trabajo estructurado.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
+                <h3>Seguridad Total</h3>
+                <p>Datos protegidos con encriptación de nivel empresarial.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <h3>Rápido y Flexible</h3>
+                <p>Interfaz intuitiva y responsive desde cualquier dispositivo.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>¿Listo para empezar?</h2>
+            <p>Únete a JKards hoy y lleva tu productividad al siguiente nivel.</p>
+            <div class="hero-buttons" style="justify-content: center;">
+                <a th:href="@{/auth/register}" class="btn-hero btn-hero-primary">
+                    Crear Cuenta Gratis
+                </a>
+                <a th:href="@{/auth/login}" class="btn-hero btn-hero-secondary">
+                    Ya tengo cuenta
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 JKards. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

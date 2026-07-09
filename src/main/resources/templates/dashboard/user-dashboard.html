@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JKards - Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0e1a' width='100' height='100' rx='20'/><path d='M30 25 L30 75 M30 50 L55 25 M30 50 L55 75' stroke='%233b82f6' stroke-width='8' stroke-linecap='round'/></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        /* Estilos específicos del Dashboard */
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+            background: var(--carbon-900);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--carbon-800);
+            border-right: 1px solid rgba(59, 130, 246, 0.1);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 50;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            margin-bottom: 2rem;
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-section-title {
+            color: var(--carbon-400);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.75rem;
+            border-radius: 6px;
+            color: var(--carbon-200);
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--blue-light);
+        }
+
+        .nav-item svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .search-bar {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+            width: 300px;
+            color: white;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--blue-accent);
+        }
+
+        .btn-create {
+            background: var(--blue-accent);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-create:hover {
+            background: var(--blue-light);
+            box-shadow: var(--shadow-button);
+        }
+
+        /* Grid Cards */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .board-card {
+            display: block;
+            aspect-ratio: 16/10;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: var(--shadow-card);
+        }
+
+        .board-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .board-card-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            font-weight: 600;
+        }
+
+        .create-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--carbon-400);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .create-card:hover {
+            border-color: var(--blue-accent);
+            color: var(--blue-accent);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .project-form {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: minmax(180px, 1fr) minmax(220px, 2fr) auto;
+            gap: 0.75rem;
+            align-items: end;
+        }
+
+        .project-form input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: white;
+            padding: 0.65rem 0.75rem;
+        }
+
+        .project-form input:focus {
+            outline: none;
+            border-color: var(--blue-accent);
+        }
+
+        .dashboard-alert {
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+        }
+
+        .dashboard-alert.success {
+            background: rgba(16, 185, 129, 0.12);
+            color: #6ee7b7;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .dashboard-alert.error {
+            background: rgba(239, 68, 68, 0.12);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .empty-state {
+            color: var(--carbon-300);
+            border: 1px dashed rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        /* Section Titles */
+        .section-title {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Promo Banner */
+        .promo-banner {
+            background: linear-gradient(135deg, #1e3a8a 0%, #111827 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .promo-text h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .promo-text p {
+            color: var(--carbon-300);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            .top-bar {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            .search-bar {
+                width: 100%;
+            }
+            .project-form {
+                grid-template-columns: 1fr;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <svg class="logo-svg" viewBox="0 0 100 100" width="32" height="32">
+                <rect fill="#0a0e1a" width="100" height="100" rx="20"/>
+                <path d="M30 25 L30 75 M30 50 L55 25 M30 50 L55 75" stroke="#3b82f6" stroke-width="8" stroke-linecap="round" fill="none"/>
+            </svg>
+            JKards
+        </div>
+
+        <div class="nav-section">
+            <a href="#" class="nav-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                Tableros
+            </a>
+            <a href="#" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                Plantillas
+            </a>
+            <a href="#" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                Inicio
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Espacios de trabajo</div>
+            <div class="nav-item">
+                <div style="width:24px; height:24px; background:#8b5cf6; border-radius:4px; display:flex; align-items:center; justify-content:center; color:white; font-size:0.8rem;">J</div>
+                Espacio de JKards
+            </div>
+        </div>
+
+        <div style="margin-top:auto;">
+            <a th:href="@{/auth/logout}" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                Cerrar Sesión
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <button class="mobile-menu-btn" style="display:none; background:none; border:none; color:white; cursor:pointer;" onclick="toggleSidebar()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <input type="text" class="search-bar" placeholder="Buscar tableros...">
+            <div style="display:flex; align-items:center; gap:1rem;">
+                <span style="color:var(--carbon-300);">Hola, <span th:text="${username}">Usuario</span></span>
+                <a href="#crear-proyecto" class="btn-create">Crear</a>
+            </div>
+        </div>
+
+        <div th:if="${success}" class="dashboard-alert success" th:text="${success}"></div>
+        <div th:if="${error}" class="dashboard-alert error" th:text="${error}"></div>
+
+        <form id="crear-proyecto" th:action="@{/dashboard/proyectos}" th:object="${crearProyectoRequest}" method="post" class="project-form">
+            <input type="text" th:field="*{nombre}" maxlength="150" required placeholder="Nombre del proyecto">
+            <input type="text" th:field="*{descripcion}" maxlength="1000" placeholder="Descripcion breve">
+            <button type="submit" class="btn-create" style="border:none; cursor:pointer;">Crear tablero</button>
+        </form>
+
+        <!-- Promo Banner (JKards Style) -->
+        <div class="promo-banner">
+            <div class="promo-text">
+                <h3>Bienvenido a JKards Pro</h3>
+                <p>Organiza todo con nuestro nuevo sistema de vistas y automatizaciones.</p>
+            </div>
+            <button class="btn-nav btn-nav-primary" style="white-space:nowrap;">Probar ahora</button>
+        </div>
+
+        <!-- Recently Viewed -->
+        <div class="section-title">Tus proyectos</div>
+        <div th:if="${#lists.isEmpty(proyectos)}" class="empty-state">
+            Aun no tienes proyectos. Crea tu primer tablero para empezar.
+        </div>
+        <div class="grid-cards">
+            <a th:each="proyecto, iter : ${proyectos}" class="board-card"
+                 th:href="@{/proyectos/{proyectoId}/tablero(proyectoId=${proyecto.id})}"
+                 th:attr="aria-label=|Abrir tablero ${proyecto.nombre}|"
+                 th:style="${iter.index % 3 == 0 ? 'background: linear-gradient(135deg, #2563eb, #0f172a);' : (iter.index % 3 == 1 ? 'background: linear-gradient(135deg, #7c3aed, #111827);' : 'background: linear-gradient(135deg, #059669, #0f172a);')}">
+                <div class="board-card-title" th:text="${proyecto.nombre}">Tablero</div>
+            </a>
+
+            <a href="#crear-proyecto" class="board-card create-card" style="text-decoration:none;">
+                Crear un tablero nuevo
+            </a>
+        </div>
+
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+<script>
+    // Toggle Sidebar Mobile
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+    }
+</script>
+</body>
+</html>

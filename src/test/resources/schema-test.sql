@@ -1,0 +1,1 @@
+CREATE DOMAIN IF NOT EXISTS prioridad_enum AS VARCHAR(20);
